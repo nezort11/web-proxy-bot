@@ -2,7 +2,7 @@ import http from "serverless-http";
 
 import { bot } from "./bot";
 
-// Only for development
+// Only in development
 if (require.main === module) {
   bot.launch();
 

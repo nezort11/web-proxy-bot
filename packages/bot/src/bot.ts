@@ -1,4 +1,4 @@
-import { Telegraf } from "telegraf";
+import { Telegraf, Markup } from "telegraf";
 import { message } from "telegraf/filters";
 import { BOT_TOKEN } from "./constants";
 
@@ -9,10 +9,21 @@ bot.start(async (context) => {
 });
 
 bot.on(message("text"), async (context) => {
-  await context.sendChatAction("typing");
+  // await context.sendChatAction("typing");
 
   const link = context.message.text;
   const encodedLink = encodeURIComponent(link);
-  const proxyLink = `https://web-proxy-redirect.vercel.app/?country=pl&url=${encodedLink}`;
-  await context.reply(proxyLink);
+  const proxyLink = `https://wproxy.vercel.app/?country=pl&url=${encodedLink}`;
+  const googleWebCacheLink = `https://webcache.googleusercontent.com/search?q=cache:${link}`;
+  const archiveOrgLink = `https://web.archive.org/web/*/${link}`;
+  const archiveIsLink = `https://archive.is/submit/?url=${encodedLink}`;
+
+  await context.reply(
+    `This is your web proxy link:\n${proxyLink}\n\nYou can also try opening link using archive proxies:`,
+    Markup.inlineKeyboard([
+      [Markup.button.url("Google Web Cache", googleWebCacheLink)],
+      [Markup.button.url("Archive.org", archiveOrgLink)],
+      [Markup.button.url("Archive.is", archiveIsLink)],
+    ])
+  );
 });
