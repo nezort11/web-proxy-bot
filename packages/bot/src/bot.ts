@@ -1,6 +1,6 @@
 import { Telegraf, Markup } from "telegraf";
 import { message } from "telegraf/filters";
-import { BOT_TOKEN } from "./constants";
+import { BOT_TOKEN } from "./env";
 
 export const bot = new Telegraf(BOT_TOKEN);
 
@@ -20,10 +20,19 @@ bot.on(message("text"), async (context) => {
 
   await context.reply(
     `This is your web proxy link:\n${proxyLink}\n\nYou can also try opening link using archive proxies:`,
-    Markup.inlineKeyboard([
-      [Markup.button.url("Google Web Cache", googleWebCacheLink)],
-      [Markup.button.url("Archive.org", archiveOrgLink)],
-      [Markup.button.url("Archive.is", archiveIsLink)],
-    ])
+    {
+      ...Markup.inlineKeyboard([
+        [Markup.button.url("Archive.is", archiveIsLink)],
+        [Markup.button.url("Archive.org", archiveOrgLink)],
+        [Markup.button.url("Google Web Cache", googleWebCacheLink)],
+      ]),
+      disable_notification: true,
+    }
   );
+});
+
+bot.use(async (context) => {
+  await context.reply("Hi there. Please send me a link to proxy 🔒🔑", {
+    disable_notification: true,
+  });
 });
