@@ -1,8 +1,10 @@
-import { Telegraf, Markup } from "telegraf";
+import { Telegraf, Markup, Composer } from "telegraf";
 import { message } from "telegraf/filters";
 import { BOT_TOKEN } from "./env";
 
 export const bot = new Telegraf(BOT_TOKEN);
+
+bot.use(Composer.drop((context) => context.chat?.type !== "private"));
 
 bot.start(async (context) => {
   await context.reply("Hi there. Please send me a link to proxy 🔒🔑");
@@ -13,7 +15,7 @@ bot.on(message("text"), async (context) => {
 
   const link = context.message.text;
   const encodedLink = encodeURIComponent(link);
-  const proxyLink = `https://wproxy.vercel.app/?country=pl&url=${encodedLink}`;
+  const proxyLink = `https://ewp.deno.dev/${link}`;
   const googleWebCacheLink = `https://webcache.googleusercontent.com/search?q=cache:${link}`;
   const archiveOrgLink = `https://web.archive.org/web/*/${link}`;
   const archiveIsLink = `https://archive.is/submit/?url=${encodedLink}`;
