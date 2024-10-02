@@ -16,13 +16,13 @@ package:
     - .env
     - package.json
     # - package-lock.json
-    - dist/*.js
+    - dist/**/*.js
 
 functions:
   main:
     handler: dist/index.handler
     memorySize: 128
-    timeout: "5"
+    timeout: 60 # 1m
     account: function-sa
     events:
       - http:

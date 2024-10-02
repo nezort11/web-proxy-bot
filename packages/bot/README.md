@@ -13,11 +13,11 @@ Deploy to production
 pnpm build
 pnpm serverless:deploy
 pnpm serverless:info
-
-# => MAKE FUNCTION - PUBLIC IN THE YANDEX CLOUD CONSOLE
-open "https://console.cloud.yandex.ru/"
-
 pnpm webhook:set
+
+# or just run
+
+pnpm release
 ```
 
 Clear resource and reset
